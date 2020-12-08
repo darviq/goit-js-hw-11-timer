@@ -5,28 +5,26 @@ class CountdownTimer {
         this.timer = document.querySelector(selector);
         this.targetDate = targetDate;
         this.timeLeft = 0;
+        this.days = this.timer.querySelector('[data-value="days"]');
+        this.hours = this.timer.querySelector('[data-value="hours"]');
+        this.mins = this.timer.querySelector('[data-value="mins"]');
+        this.secs = this.timer.querySelector('[data-value="secs"]');
     }
 
     pad (value) {
         return String(value).padStart(2, "0");
     }
     
-    countLeft () {
+    countAndShowLeft () {
         this.timeLeft = this.targetDate - Date.now();
-
-        const days = this.pad(Math.floor(this.timeLeft / (1000 * 60 * 60 * 24)));
-        const hours = this.pad(Math.floor((this.timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
-        const mins = this.pad(Math.floor((this.timeLeft % (1000 * 60 * 60)) / (1000 * 60)));
-        const secs = this.pad(Math.floor((this.timeLeft % (1000 * 60)) / 1000));
-
-        this.timer.querySelector('[data-value="days"]').innerHTML = days;
-        this.timer.querySelector('[data-value="hours"]').innerHTML = hours;
-        this.timer.querySelector('[data-value="mins"]').innerHTML = mins;
-        this.timer.querySelector('[data-value="secs"]').innerHTML = secs;
+        this.days.innerHTML = this.pad(Math.floor(this.timeLeft / (1000 * 60 * 60 * 24)));
+        this.hours.innerHTML = this.pad(Math.floor((this.timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+        this.mins.innerHTML = this.pad(Math.floor((this.timeLeft % (1000 * 60 * 60)) / (1000 * 60)));
+        this.secs.innerHTML = this.pad(Math.floor((this.timeLeft % (1000 * 60)) / 1000));
     }
 
     startСountdown () {
-        setInterval(this.countLeft.bind(this), 1000);
+        setInterval(this.countAndShowLeft.bind(this), 1000);
     }
 }
 
@@ -34,5 +32,4 @@ const newYear = new CountdownTimer({
     selector: '#timer-1',
     targetDate: new Date('Jan 1, 2021')
 });
-
 newYear.startСountdown();
